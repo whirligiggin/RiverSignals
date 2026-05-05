@@ -25,7 +25,7 @@ Product-level boundaries are documented in:
 - Stores flow readings and uses latest usable current where supported
 - Provides internal stewardship surfaces for canonical/provisional data
 - Extracts structured trip details from noisy text as a component capability
-
+![Run Estimate Screenshot](image.png)
 ## Project structure
 
 - `SignalExtraction.Api/` - current RiverSignals web/API host
