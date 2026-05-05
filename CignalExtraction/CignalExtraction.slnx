@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="ProjectCignal/ProjectCignal.csproj" />
+  <Project Path="SignalExtraction.Api/SignalExtraction.Api.csproj" />
+  <Project Path="SignalExtraction.Core/SignalExtraction.Core.csproj" />
+</Solution>

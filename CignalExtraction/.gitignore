@@ -1,0 +1,25 @@
+# Build
+bin/
+obj/
+
+# VS Code
+.vscode/
+
+# User-specific files
+*.suo
+*.user
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+#.NET
+*.dll
+*.exe
+
+#Secrets
+appsettings.Development.json
+

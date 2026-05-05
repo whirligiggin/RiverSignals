@@ -1,0 +1,101 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "River Trip Estimator";
+}
+
+<div class="text-center">
+    <h1 class="display-5">ProjectCignal</h1>
+    <p>Transforms river trip inputs into a useful planning estimate.</p>
+</div>
+
+<form method="post" class="mt-4">
+    <div class="mb-3">
+        <label asp-for="Input.SelectedSegment" class="form-label"></label>
+        <select asp-for="Input.SelectedSegment" class="form-control" id="presetSegmentSelect">
+            <option value="">-- Select a preset segment --</option>
+            @foreach (var segment in Model.PresetSegments)
+            {
+                <option value="@segment.Name"
+                        data-distance="@segment.DistanceMiles"
+                        data-current="@segment.DefaultCurrentMph">
+                    @segment.Name (@segment.DistanceMiles miles)
+                </option>
+            }
+        </select>
+        <span asp-validation-for="Input.SelectedSegment" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Input.SegmentName" class="form-label"></label>
+        <input asp-for="Input.SegmentName" class="form-control" id="segmentNameInput" />
+        <span asp-validation-for="Input.SegmentName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Input.DistanceMiles" class="form-label"></label>
+        <input asp-for="Input.DistanceMiles" class="form-control" id="distanceMilesInput" />
+        <span asp-validation-for="Input.DistanceMiles" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Input.PaddlingSpeedMph" class="form-label"></label>
+        <input asp-for="Input.PaddlingSpeedMph" class="form-control" />
+        <span asp-validation-for="Input.PaddlingSpeedMph" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Input.RiverCurrentMph" class="form-label"></label>
+        <input asp-for="Input.RiverCurrentMph" class="form-control" id="riverCurrentMphInput" />
+        <span asp-validation-for="Input.RiverCurrentMph" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Input.LaunchTime" class="form-label"></label>
+        <input asp-for="Input.LaunchTime" class="form-control" />
+        <span asp-validation-for="Input.LaunchTime" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Estimate Trip</button>
+</form>
+
+@if (Model.Result is not null)
+{
+    <div class="card mt-4">
+        <div class="card-body">
+            <h2 class="h4">Estimate</h2>
+            <p><strong>Segment:</strong> @Model.Result.SegmentName</p>
+            <p><strong>Estimated Duration:</strong> @Model.Result.EstimatedDurationText</p>
+            <p><strong>Estimated Finish:</strong> @Model.Result.EstimatedFinishTimeText</p>
+            <p><strong>Assumptions:</strong> @Model.Result.Assumptions</p>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const presetSelect = document.getElementById('presetSegmentSelect');
+            const segmentNameInput = document.getElementById('segmentNameInput');
+            const distanceMilesInput = document.getElementById('distanceMilesInput');
+            const riverCurrentInput = document.getElementById('riverCurrentMphInput');
+
+            if (!presetSelect || !segmentNameInput || !distanceMilesInput || !riverCurrentInput) {
+                console.log('Preset autofill wiring missing an element.');
+                return;
+            }
+
+            presetSelect.addEventListener('change', function () {
+                const selectedOption = presetSelect.options[presetSelect.selectedIndex];
+
+                if (selectedOption && selectedOption.value) {
+                    segmentNameInput.value = selectedOption.value;
+                    distanceMilesInput.value = selectedOption.dataset.distance || '';
+                    riverCurrentInput.value = selectedOption.dataset.current || '';
+                }
+            });
+        });
+    </script>
+}

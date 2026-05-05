@@ -1,0 +1,11 @@
+**/bin/
+
+**/obj/
+
+# RiverSignals runtime artifacts
+CignalExtraction/data/*.db
+CignalExtraction/data/*.db-*
+CignalExtraction/SignalExtraction.Api/*.db
+CignalExtraction/SignalExtraction.Api/*.db-*
+tmp-*.log
+tmp-*.err.log
